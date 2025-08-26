@@ -117,10 +117,27 @@
         "enable_transparent_header_collection": false,
         "collection_color_scheme": "default"
       }
+    },
+    "wheel_zYf34Q": {
+      "type": "wheel",
+      "name": "Wheel Section",
+      "settings": {
+        "staffing_title": "Staffing",
+        "staffing_text": "Some content...",
+        "property_title": "Property Management",
+        "property_text": "Some content...",
+        "hr_title": "HR & Employee Oversight",
+        "hr_text": "Some content...",
+        "inhome_title": "In-Home Care",
+        "inhome_text": "Some content...",
+        "service_title": "Service Provider Sourcing",
+        "service_text": "Some content..."
+      }
     }
   },
   "order": [
     "header_announcements_9jGBFp",
-    "header_section"
+    "header_section",
+    "wheel_zYf34Q"
   ]
 }
