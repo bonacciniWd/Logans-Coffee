@@ -1,0 +1,115 @@
+{% comment %}
+  Wheel Section
+  Essa section renderiza a roda com GSAP + ScrollTrigger
+{% endcomment %}
+
+<section id="wheelSection" class="py-5">
+  <div class="wheel-container">
+    <div class="row">
+      <div class="col-md-6">
+        <div class="wheel">
+          <img src="{{ 'wheel-inactive.webp' | asset_url }}" alt="Wheel base">
+
+          <div class="wheel-parts" id="myTab" role="tablist">
+            <img class="wheel-item wheel-staffing" src="{{ 'wheel-staffing-active.webp' | asset_url }}" id="staffing-tab">
+            <img class="wheel-item wheel-property" src="{{ 'wheel-property-active.webp' | asset_url }}" id="property-tab">
+            <img class="wheel-item wheel-hr" src="{{ 'wheel-hr-active.webp' | asset_url }}" id="hr-tab">
+            <img class="wheel-item wheel-in-home" src="{{ 'wheel-in-home-active.webp' | asset_url }}" id="inHome-tab">
+            <img class="wheel-item wheel-service" src="{{ 'wheel-service-active.webp' | asset_url }}" id="service-tab">
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-5 offset-md-1 d-flex align-items-center justify-content-center">
+        <div class="wheel-content">
+          <div class="text-block wheel-staffing-content">
+            <h3>{{ section.settings.staffing_title }}</h3>
+            <p>{{ section.settings.staffing_text }}</p>
+          </div>
+          <div class="text-block wheel-property-content">
+            <h3>{{ section.settings.property_title }}</h3>
+            <p>{{ section.settings.property_text }}</p>
+          </div>
+          <div class="text-block wheel-hr-content">
+            <h3>{{ section.settings.hr_title }}</h3>
+            <p>{{ section.settings.hr_text }}</p>
+          </div>
+          <div class="text-block wheel-in-home-content">
+            <h3>{{ section.settings.inhome_title }}</h3>
+            <p>{{ section.settings.inhome_text }}</p>
+          </div>
+          <div class="text-block wheel-service-content">
+            <h3>{{ section.settings.service_title }}</h3>
+            <p>{{ section.settings.service_text }}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<style>
+  /* Cola aqui o CSS que você já tem */
+  #wheelSection img { width:100%; }
+  .wheel-container { max-width:1140px; margin:auto; }
+  .wheel { position:relative; margin-bottom:2rem; }
+  .wheel-parts { position:absolute; inset:0; }
+  .wheel-parts img { opacity:0; position:absolute; max-width:74%; top:60.25%; left:13%; z-index:1; }
+  .wheel-parts .active { opacity:1; transform:scale(1.2); }
+  .wheel-content .text-block { opacity:0; display:none; }
+</style>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function(){
+    if (typeof gsap !== "undefined" && typeof ScrollTrigger !== "undefined") {
+      gsap.registerPlugin(ScrollTrigger);
+      const images = gsap.utils.toArray("#wheelSection img.wheel-item");
+      const paneTexts = gsap.utils.toArray("#wheelSection .wheel-content .text-block");
+
+      const tl = gsap.timeline({
+        scrollTrigger: {
+          trigger: "#wheelSection",
+          start: "top top",
+          end: "+=300%",
+          pin: true,
+          scrub: true,
+        }
+      });
+
+      images.forEach((img, i) => {
+        const text = paneTexts[i];
+        tl.to(img, { scale: 1.2, autoAlpha: 1, ease: "none" })
+          .to(text, { autoAlpha: 1, display: "block" }, "<")
+          .to(img, { scale: 1, duration: 0.15, ease: "power1.in" }, "+=0.5")
+          .to(text, { autoAlpha: 0, display: "none" }, "<")
+          .set(img, { autoAlpha: 0 });
+      });
+    }
+  });
+</script>
+
+{% schema %}
+{
+  "name": "Wheel Section",
+  "settings": [
+    { "type": "text", "id": "staffing_title", "label": "Staffing Title", "default": "Staffing" },
+    { "type": "textarea", "id": "staffing_text", "label": "Staffing Text", "default": "Some content..." },
+
+    { "type": "text", "id": "property_title", "label": "Property Title", "default": "Property Management" },
+    { "type": "textarea", "id": "property_text", "label": "Property Text", "default": "Some content..." },
+
+    { "type": "text", "id": "hr_title", "label": "HR Title", "default": "HR & Employee Oversight" },
+    { "type": "textarea", "id": "hr_text", "label": "HR Text", "default": "Some content..." },
+
+    { "type": "text", "id": "inhome_title", "label": "In-Home Title", "default": "In-Home Care" },
+    { "type": "textarea", "id": "inhome_text", "label": "In-Home Text", "default": "Some content..." },
+
+    { "type": "text", "id": "service_title", "label": "Service Title", "default": "Service Provider Sourcing" },
+    { "type": "textarea", "id": "service_text", "label": "Service Text", "default": "Some content..." }
+  ],
+  "presets": [
+    { "name": "Wheel Section", "category": "Custom" }
+  ]
+}
+{% endschema %}
